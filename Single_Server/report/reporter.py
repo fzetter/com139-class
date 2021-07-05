@@ -27,6 +27,8 @@ def report_all_by_field_obj(my_objs: list, my_field: str, w_filter: bool = False
     else:
         print(is_status)
         values = get_map_values(my_objs, my_field)
+        print('Succeded: %d' % values.count(Status.SUCCESS))
+        print('Reneged: %d' % values.count(Status.RENEGED))
         print(values)
         # TODO: get a histogram count on every status
         # TODO: graph the histogram

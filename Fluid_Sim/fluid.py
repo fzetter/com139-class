@@ -6,22 +6,26 @@ https://github.com/Guilouf/python_realtime_fluidsim
 """
 import numpy as np
 import math
+import json
+import random
 
-
+### CLASS FLUID ###
+###################
 class Fluid:
 
+    ### INIT ###
     def __init__(self):
         self.rotx = 1
         self.roty = 1
         self.cntx = 1
         self.cnty = -1
 
-        self.size = 60  # map size
-        self.dt = 0.2  # time interval
-        self.iter = 2  # linear equation solving iteration number
+        self.size = 60  # Map size
+        self.dt = 0.2   # Time interval
+        self.iter = 2   # Linear equation solving iteration number
 
-        self.diff = 0.0000  # Diffusion
-        self.visc = 0.0000  # viscosity
+        self.diff = 0.0000  # Diffusion - how fast stuff spreads out in the fluid
+        self.visc = 0.0000  # Viscosity - how thick the fluid is
 
         self.s = np.full((self.size, self.size), 0, dtype=float)        # Previous density
         self.density = np.full((self.size, self.size), 0, dtype=float)  # Current density
@@ -30,23 +34,46 @@ class Fluid:
         self.velo = np.full((self.size, self.size, 2), 0, dtype=float)
         self.velo0 = np.full((self.size, self.size, 2), 0, dtype=float)
 
+    ### STEP ###
+    # Main simulation method.
     def step(self):
+        # Diffuse the velocity throughout the grid.
         self.diffuse(self.velo0, self.velo, self.visc)
 
-        # x0, y0, x, y
+        # Fix up velocities so they keep things incompressible.
+        # Input: x0, y0, x, y
         self.project(self.velo0[:, :, 0], self.velo0[:, :, 1], self.velo[:, :, 0], self.velo[:, :, 1])
 
+        # Move the velocities around according to the velocities of the fluid.
+        # New velocities affect the ones already in the fluid.
         self.advect(self.velo[:, :, 0], self.velo0[:, :, 0], self.velo0)
         self.advect(self.velo[:, :, 1], self.velo0[:, :, 1], self.velo0)
 
+        # Fix up the velocities again
         self.project(self.velo[:, :, 0], self.velo[:, :, 1], self.velo0[:, :, 0], self.velo0[:, :, 1])
 
+        # Diffuse the dye or the new densities affecting the fluid.
         self.diffuse(self.s, self.density, self.diff)
 
+        # Move the dye around according to the velocities
         self.advect(self.density, self.s, self.velo)
 
+    ### SOLVE EQUATION ###
+    # Implementation of the Gauss-Seidel relaxation.
+    # Solves a system of linear equations. Since the matrix of this system is sparse (i.e contain a lot of zeros),
+    # this system can be solved efficiently using a Gauss-Seidel algorithm.
+    # For the diffusion, we try to find the densities which, when diffused backward in time, gives the density we started with.
+    # In the case of the projection, we are solving a linear system called a poisson equation.
+    #   Poisson's equation is a partial differential equation.
+    #   To make sure that the fluid is incompressible, we need to satisfy the non-divergence condition.
+    #   The divergence of a vector field represents how much the field is ‘expanding’ at the point.
+    #   A positive value represents a divergence and a negative value represents a convergence or compression.
+    #   If we assume that a fluid is incompressible, that implies that the divergence of the velocity must be zero everywhere.
+    #
+    # The solving is done by iterating through the array and setting each cell to a combination of its neighbors.
+    # It does this several times; the more iterations it does, the more accurate the results, but the slower things run.
+    # After each iteration, it resets the boundaries so the calculations aren't messed up.
     def lin_solve(self, x, x0, a, c):
-        """Implementation of the Gauss-Seidel relaxation"""
         c_recip = 1 / c
 
         for iteration in range(0, self.iter):
@@ -55,12 +82,13 @@ class Fluid:
 
             self.set_boundaries(x)
 
+    ### SET BOUNDARIES ###
+    # This method keeps the fluid from leaking out of our 3D array.
+    # Walls are added by treating the outer layer of cells as the wall.
+    # Basically, every velocity in the layer next to this outer layer is mirrored.
+    # So when we have some velocity towards the wall in the next-to-outer layer,
+    # the wall gets a velocity that perfectly counters it.
     def set_boundaries(self, table):
-        """
-        Boundaries handling
-        :return:
-        """
-
         if len(table.shape) > 2:  # 3d velocity vector array
             # Simulating the bouncing effect of the velocity array
             # vertical, invert if y vector
@@ -77,6 +105,8 @@ class Fluid:
         table[self.size - 1, self.size - 1] = 0.5 * table[self.size - 2, self.size - 1] + \
                                               table[self.size - 1, self.size - 2]
 
+    ### DIFFUSE ###
+    # We use diffusion for making the dye and velocities of the fluid spread out throughout the grid.
     def diffuse(self, x, x0, diff):
         if diff != 0:
             a = self.dt * diff * (self.size - 2) * (self.size - 2)
@@ -84,6 +114,9 @@ class Fluid:
         else:  # equivalent to lin_solve with a = 0
             x[:, :] = x0[:, :]
 
+    ### PROJECT ###
+    # We're only simulating incompressible fluids so the amount of fluid in each cell has to stay constant.
+    # This method runs through all the cells and fixes them up so everything is in equilibrium.
     def project(self, velo_x, velo_y, p, div):
         # numpy equivalent to this in a for loop:
         # div[i, j] = -0.5 * (velo_x[i + 1, j] - velo_x[i - 1, j] + velo_y[i, j + 1] - velo_y[i, j - 1]) / self.size
@@ -101,6 +134,13 @@ class Fluid:
 
         self.set_boundaries(self.velo)
 
+    ### ADVECT ###
+    # Every cell has a set of velocities, and these velocities make things move.
+    # As with diffusion, advection applies both to the dye and to the velocities themselves.
+    #
+    # It looks at each cell, grabs the velocity and follows it back in time to see where it lands.
+    # It then takes a weighted average of the cells around the spot where it lands,
+    # then applies that value to the current cell.
     def advect(self, d, d0, velocity):
         dtx = self.dt * (self.size - 2)
         dty = self.dt * (self.size - 2)
@@ -145,6 +185,7 @@ class Fluid:
                     raise IndexError
         self.set_boundaries(d)
 
+    ### TURN ###
     def turn(self):
         self.cntx += 1
         self.cnty += 1
@@ -160,33 +201,67 @@ class Fluid:
             self.roty = self.rotx
         return self.rotx, self.roty
 
-
+### MAIN ###
+############
 if __name__ == "__main__":
     try:
         import matplotlib.pyplot as plt
         from matplotlib import animation
+        from config import *
 
         inst = Fluid()
+        data = Config().data
 
         def update_im(i):
-            # We add new density creators in here
-            inst.density[14:17, 14:17] += 100  # add density into a 3*3 square
-            # We add velocity vector values in here
-            inst.velo[20, 20] = [-2, -2]
+            # We add dye so it allows us to see things moving.
+            # The water is equally dense everywhere, but some of it has more dye than others.
+            # We add new density creators in here.
+            # Add density into a 3*3 square.
+            for density in data["densities"]:
+                val = density["value"]
+                x_start = density["pos"]["x"]["start"]
+                x_end = density["pos"]["x"]["end"]
+                y_start = density["pos"]["y"]["start"]
+                y_end = density["pos"]["y"]["end"]
+
+                inst.density[y_start:y_end, x_start:x_end] += val
+
+            # We add velocity vector values in here.
+            for force in data["velocities"]:
+                start = force["int"][0]
+                end = force["int"][1]
+                x = eval(force["pos"]["x"])
+                y = eval(force["pos"]["y"])
+                x_vec = eval(force["dir"]["x"])
+                y_vec = eval(force["dir"]["y"])
+
+                if start == -1 and end == -1:
+                    inst.velo[x, y] = [x_vec, y_vec]
+                else:
+                    if i>start and i<end:
+                        inst.velo[x, y] = [x_vec, y_vec]
+
+            # Drop velocity when hit an object.
+            for object in data["objects"]:
+                x = object["pos"]["x"]
+                y = object["pos"]["y"]
+                len = object["len"]
+                inst.velo[y:y+len, x:x+len] = 0
+
             inst.step()
             im.set_array(inst.density)
             q.set_UVC(inst.velo[:, :, 1], inst.velo[:, :, 0])
-            # print(f"Density sum: {inst.density.sum()}")
             im.autoscale()
 
         fig = plt.figure()
+        colorMap = random.choice(["Accent", "YlOrRd", "tab20", "plasma", "summer"])
 
-        # plot density
-        im = plt.imshow(inst.density, vmax=100, interpolation='bilinear')
+        # Plot density
+        im = plt.imshow(inst.density, cmap=colorMap, vmax=100, interpolation='bilinear')
 
-        # plot vector field
+        # Plot vector field
         q = plt.quiver(inst.velo[:, :, 1], inst.velo[:, :, 0], scale=10, angles='xy')
-        anim = animation.FuncAnimation(fig, update_im, interval=0)
+        anim = animation.FuncAnimation(fig, update_im, interval=1)
         # anim.save("movie.mp4", fps=30, extra_args=['-vcodec', 'libx264'])
         plt.show()
 
@@ -200,7 +275,7 @@ if __name__ == "__main__":
         video = np.full((frames, flu.size, flu.size), 0, dtype=float)
 
         for step in range(0, frames):
-            flu.density[4:7, 4:7] += 100  # add density into a 3*3 square
+            flu.density[4:7, 4:7] += 100 # Add density into a 3*3 square
             flu.velo[5, 5] += [1, 2]
 
             flu.step()
