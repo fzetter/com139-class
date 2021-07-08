@@ -1,0 +1,15 @@
+Setup Guide
+
+install pandas
+
+pip install django
+pip install djangorestframework
+pip install django-import-export
+pip install django-url-filter
+
+py manage.py runserver
+http://127.0.0.1:8000/covid_app/
+
+python manage.py createsuperuser --email <admin@user.com> --username admin
+password: password
+python manage.py migrate
