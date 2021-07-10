@@ -14,7 +14,13 @@ def index(request):
     return render(request, 'covid_app/index.html', context)
 
 def dashboard(request):
-    context = {}
+    donut_json = '[ { "region": "East", "fruit": "Apples", "count": "53245" }, { "region": "West", "fruit": ' \
+                 '"Apples", "count": "28479" }, { "region": "South", "fruit": "Apples", "count": "19697" }, ' \
+                 '{ "region": "North", "fruit": "Apples", "count": "24037" }, { "region": "Central", ' \
+                 '"fruit": "Apples", "count": "40245" }, { "region": "East", "fruit": "Oranges", "count": "200" ' \
+                 '}, { "region": "South", "fruit": "Oranges", "count": "200" }, { "region": "Central", ' \
+                 '"fruit": "Oranges", "count": "200" }] '
+    context = {'data_json': SafeString(donut_json)}
     return render(request, 'covid_app/dashboard.html', context)
 
 def pie_chart(request):
