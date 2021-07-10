@@ -9,11 +9,13 @@ from .serializers import StateSexSerializer, StateSexAgeSerializer
 import pandas as pd
 # Create your views here.
 
-
 def index(request):
     context = {}
     return render(request, 'covid_app/index.html', context)
 
+def dashboard(request):
+    context = {}
+    return render(request, 'covid_app/dashboard.html', context)
 
 def pie_chart(request):
     # covid_df = pd.DataFrame.from_records(data)
@@ -25,7 +27,6 @@ def pie_chart(request):
                  '"fruit": "Oranges", "count": "200" }] '
     context = {'data_json': SafeString(donut_json)}
     return render(request, 'covid_app/donut.html', context)
-
 
 class StateSexSet(viewsets.ModelViewSet):
     queryset = COVIDData.objects.all()
