@@ -53,24 +53,24 @@ x_stacked_scale.domain(columns)
 y_stacked_scale.domain([2152, 0])
 color_scale_stacked.domain(columns)
 
-// Stack Chart
-stack.keys(columns)
-	.order(d3.stackOrderNone)
-	.offset(d3.stackOffsetNone)
-
-const browser = gst.selectAll('.browser')
-	.data(stack(datast))
-	.enter().append('g')
-	.attr('class', d => 'browser ' + d.key)
-	.attr('fill-opacity', 0.5)
-
-browser.append('path')
-	.attr('class', 'area_stacked')
-	.attr('d', area_stacked)
-	.style('fill', d => color_scale_stacked(d.key))
-
+// // Stack Chart
+// stack.keys(columns)
+// 	.order(d3.stackOrderNone)
+// 	.offset(d3.stackOffsetNone)
+//
+// const browser = gst.selectAll('.browser')
+// 	.data(stack(datast))
+// 	.enter().append('g')
+// 	.attr('class', d => 'browser ' + d.key)
+// 	.attr('fill-opacity', 0.5)
+//
+// browser.append('path')
+// 	.attr('class', 'area_stacked')
+// 	.attr('d', area_stacked)
+// 	.style('fill', d => color_scale_stacked(d.key))
+//
 // Axis & Labels
-configAxisAndLabelsSt(x, y, "Billions of liters", "#fff")
+configAxisAndLabelsSt(x_stacked_scale, y_stacked_scale, "Billions of liters", "#fff")
 
 
 
@@ -87,32 +87,32 @@ function configAxisAndLabelsSt(x, y, yLabel, color) {
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-45)")
 
-  // Axis Color
-  gst.selectAll(".y.axis line").style("stroke", color)
-  gst.selectAll(".y.axis path").style("stroke", color)
-  gst.selectAll(".x.axis line").style("stroke", color)
-  gst.selectAll(".x.axis path").style("stroke", color)
-
-  // Label
-  y_label_stacked.text(yLabel).style("fill", color)
-
-  // Legend
-  columns.reverse().forEach((country, i) => {
-  	const legendRow = legend_stacked.append("g").attr("transform", "translate(-15, " + ((i * 20)-30) + ")")
-  	legendRow.append("rect")
-  		.attr("width", 10)
-  		.attr("height", 10)
-  		.attr("fill", color_scale_stacked(country))
-  	legendRow.append("text")
-  	  .attr("class", "legend")
-  		.attr("x", -10)
-  		.attr("y", 10)
-  		.attr("text-anchor", "end")
-  		.style("text-transform", "capitalize")
-  		.text(country)
-  })
-
-  gst.selectAll(".legend").style("fill", color)
+  // // Axis Color
+  // gst.selectAll(".y.axis line").style("stroke", color)
+  // gst.selectAll(".y.axis path").style("stroke", color)
+  // gst.selectAll(".x.axis line").style("stroke", color)
+  // gst.selectAll(".x.axis path").style("stroke", color)
+  //
+  // // Label
+  // y_label_stacked.text(yLabel).style("fill", color)
+  //
+  // // Legend
+  // columns.reverse().forEach((country, i) => {
+  // 	const legendRow = legend_stacked.append("g").attr("transform", "translate(-15, " + ((i * 20)-30) + ")")
+  // 	legendRow.append("rect")
+  // 		.attr("width", 10)
+  // 		.attr("height", 10)
+  // 		.attr("fill", color_scale_stacked(country))
+  // 	legendRow.append("text")
+  // 	  .attr("class", "legend")
+  // 		.attr("x", -10)
+  // 		.attr("y", 10)
+  // 		.attr("text-anchor", "end")
+  // 		.style("text-transform", "capitalize")
+  // 		.text(country)
+  // })
+  //
+  // gst.selectAll(".legend").style("fill", color)
 
 }
 
