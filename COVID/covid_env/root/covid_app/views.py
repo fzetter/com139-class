@@ -14,7 +14,7 @@ def index(request):
     return render(request, 'covid_app/index.html', context)
 
 def dashboard(request):
-    data_file = "../../example.json"
+    data_file = "../data/example.json"
     #xl = pd.ExcelFile(data_file)
     #covid_df = xl.parse('Sheet1')
     #covid_df = covid_df.to_json(orient='records')
