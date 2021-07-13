@@ -9,7 +9,8 @@ const gp = d3.select("#pie-chart").append("g")
 .attr("transform", "translate(" + (widthp / 2 + margin.left + 10) + "," + (heightp / 2 + margin.bottom + 30) + ")")
 
 // Scale, Arc Generator & Pie Layout
-const color = d3.scaleOrdinal().domain(Object.keys(datap)).range(d3.schemePaired.splice(0,12))
+const color_ranges = ["#457508","#2B8F9B","#9DCFC7","#1E766D","#0D3A35"]
+const color = d3.scaleOrdinal().domain(Object.keys(datap)).range(color_ranges)
 const arc = d3.arc().outerRadius(radiusp).innerRadius(0)
 const pie = d3.pie().value(d => d.value).sort(null)
 

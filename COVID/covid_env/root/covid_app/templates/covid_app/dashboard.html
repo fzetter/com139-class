@@ -33,6 +33,7 @@
         scatter_json = {{ scatter_json }}
         pie_json = {{ pie_json }}
         area_json = {{ area_json }}
+        bar_json = {{ bar_json }}
     </script>
 
     <!-- WRAPPER -->
@@ -157,19 +158,19 @@
 
                                   <div class="mt-4 text-center small">
                                       <span class="mr-4 pie-label">
-                                          <i class="fas fa-circle" style="color: #a6cee3"></i> NEUMONIA
+                                          <i class="fas fa-circle" style="color: #457508"></i> NEUMONIA
                                       </span>
                                       <span class="mr-4 pie-label">
-                                          <i class="fas fa-circle" style="color: #1f78b4"></i> HIPERTENSION
+                                          <i class="fas fa-circle" style="color: #2B8F9B"></i> HIPERTENSION
                                       </span>
                                       <span class="mr-4 pie-label">
-                                          <i class="fas fa-circle" style="color: #b2df8a"></i> OBESIDAD
+                                          <i class="fas fa-circle" style="color: #9DCFC7"></i> OBESIDAD
                                       </span>
                                       <span class="mr-4 pie-label">
-                                          <i class="fas fa-circle" style="color: #33a02c"></i> DIABETES
+                                          <i class="fas fa-circle" style="color: #1E766D"></i> DIABETES
                                       </span>
                                       <span class="mr-4 pie-label">
-                                          <i class="fas fa-circle" style="color: #fb9a99"></i> TABAQUISMO
+                                          <i class="fas fa-circle" style="color: #0D3A35"></i> TABAQUISMO
                                       </span>
                                   </div>
                               </div>
@@ -201,8 +202,9 @@
                                   <h6 class="m-0 font-weight-bold text-primary">Graph here. </h6>
                               </div>
                               <div class="card-body">
-                                  The number of cases dramatically increase between March and April and then again of December.
+                                  DF has clearly the most amount of cases.
                               </div>
+                              <svg width="95%" height="480" id="bar-chart"></svg>
                           </div>
                       </div>
 
@@ -247,6 +249,7 @@
     <script src="{% static 'js/scatter.js' %}"></script>
     <script src="{% static 'js/pie.js' %}"></script>
     <script src="{% static 'js/area.js' %}"></script>
+    <script src="{% static 'js/bar.js' %}"></script>
 
 </body>
 

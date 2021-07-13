@@ -23,9 +23,6 @@ const y_label_area = y_axis_area.append("text")
     .attr("dy", "0.71em")
     .attr("text-anchor", "end")
 
-// Time Format
-const parseDate_area = d3.timeParse("%d-%b-%y")
-
 // Obtain Data
 // ***********
 
@@ -43,16 +40,16 @@ const area = d3.area()
   .y1(d => y_area_scale(d[y_data]))
 
 ga.append("path")
-  .attr("fill", "#C6DCEA")
-  .attr("stroke", "#95B0C1")
+	.attr("fill", "#CCE5DF")
+	.attr("stroke", "#69B3A2")
   .attr("stroke-width", 1.5)
 	.attr("d", area(dataa))
 
-configAxisAndLabels(x_area_scale, y_area_scale, "#000")
+configAxisAndLabelsA(x_area_scale, y_area_scale, "#000")
 
 // Config Axis
 // ***********
-function configAxisAndLabels(x, y, color) {
+function configAxisAndLabelsA(x, y, color) {
 
 	// Y Axis
 	y_axis_area.call(yAxis_area).selectAll("text").style("fill", color)

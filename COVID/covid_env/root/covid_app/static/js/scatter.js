@@ -16,7 +16,7 @@ const x_scale = d3.scaleLinear().range([0, width])
 const y_scale = d3.scaleLinear().range([0, height])
 const area_scale = d3.scaleLinear().domain([10, 10000]).range([25*Math.PI, 1500*Math.PI])
 const continents = ['NEUMONIA','DIABETES','EPOC','ASMA','INMUSUPR','HIPERTENSION','CARDIOVASCULAR','OBESIDAD','RENAL_CRONICA','TABAQUISMO']
-const color_scale = d3.scaleOrdinal().domain(continents).range(d3.schemePaired)
+const color_scale = d3.scaleOrdinal().domain(continents).range(d3.schemeSet3)
 
 const y_axis = g.append("g").attr("class", "y axis")
 const x_axis = g.append("g").attr("class", "x axis").attr("transform", "translate(0, " + height + ")")
