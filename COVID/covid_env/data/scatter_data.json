@@ -1,0 +1,662 @@
+[
+      {
+            "month": "Jan",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 0.0,
+                        "deaths": 119
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 0.0,
+                        "deaths": 48
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 0.0,
+                        "deaths": 4
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 0.0,
+                        "deaths": 3
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 1,
+                        "deaths": 5
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 0.0,
+                        "deaths": 52
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 0.0,
+                        "deaths": 4
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 0.0,
+                        "deaths": 28
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 0.0,
+                        "deaths": 6
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 0.0,
+                        "deaths": 6
+                  }
+            ]
+      },
+      {
+            "month": "Feb",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 1,
+                        "deaths": 6
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 1,
+                        "deaths": 4
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 0.0,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 1,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 1,
+                        "deaths": 4
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 0.0,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 1,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 0.0,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 1,
+                        "deaths": 0.0
+                  }
+            ]
+      },
+      {
+            "month": "Mar",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 623,
+                        "deaths": 72
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 320,
+                        "deaths": 35
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 58,
+                        "deaths": 10
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 100,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 61,
+                        "deaths": 6
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 431,
+                        "deaths": 35
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 65,
+                        "deaths": 7
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 406,
+                        "deaths": 33
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 39,
+                        "deaths": 10
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 246,
+                        "deaths": 6
+                  }
+            ]
+      },
+      {
+            "month": "Apr",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 8463,
+                        "deaths": 2830
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 4749,
+                        "deaths": 1410
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 606,
+                        "deaths": 236
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 791,
+                        "deaths": 93
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 422,
+                        "deaths": 140
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 5531,
+                        "deaths": 1505
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 718,
+                        "deaths": 233
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 5279,
+                        "deaths": 999
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 639,
+                        "deaths": 258
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 2197,
+                        "deaths": 385
+                  }
+            ]
+      },
+      {
+            "month": "May",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 50,
+                        "deaths": 1397
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 20,
+                        "deaths": 611
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 0.0,
+                        "deaths": 90
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 0.0,
+                        "deaths": 45
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 3,
+                        "deaths": 41
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 28,
+                        "deaths": 700
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 1,
+                        "deaths": 88
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 20,
+                        "deaths": 481
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 1,
+                        "deaths": 89
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 6,
+                        "deaths": 171
+                  }
+            ]
+      },
+      {
+            "month": "Jun",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 52,
+                        "deaths": 87
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 30,
+                        "deaths": 48
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 1,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 3,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 3
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 34,
+                        "deaths": 56
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 4,
+                        "deaths": 10
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 14,
+                        "deaths": 27
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 3,
+                        "deaths": 5
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 4,
+                        "deaths": 10
+                  }
+            ]
+      },
+      {
+            "month": "Jul",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 41,
+                        "deaths": 44
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 26,
+                        "deaths": 26
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 2,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 28,
+                        "deaths": 23
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 3,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 11,
+                        "deaths": 8
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 3,
+                        "deaths": 3
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 1,
+                        "deaths": 1
+                  }
+            ]
+      },
+      {
+            "month": "Aug",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 31,
+                        "deaths": 25
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 14,
+                        "deaths": 12
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 1,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 13,
+                        "deaths": 9
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 2,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 5,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 0.0,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 1,
+                        "deaths": 1
+                  }
+            ]
+      },
+      {
+            "month": "Sep",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 31,
+                        "deaths": 16
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 14,
+                        "deaths": 8
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 1,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 1,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 20,
+                        "deaths": 7
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 1,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 8,
+                        "deaths": 2
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 2,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  }
+            ]
+      },
+      {
+            "month": "Oct",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 38,
+                        "deaths": 32
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 30,
+                        "deaths": 14
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 1,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 1,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 0.0,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 41,
+                        "deaths": 17
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 2,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 29,
+                        "deaths": 7
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 5,
+                        "deaths": 5
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 14,
+                        "deaths": 0.0
+                  }
+            ]
+      },
+      {
+            "month": "Nov",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 50,
+                        "deaths": 31
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 92,
+                        "deaths": 14
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 4,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 18,
+                        "deaths": 0.0
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 6,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 111,
+                        "deaths": 14
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 13,
+                        "deaths": 4
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 64,
+                        "deaths": 5
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 4,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 52,
+                        "deaths": 1
+                  }
+            ]
+      },
+      {
+            "month": "Dec",
+            "conditions": [
+                  {
+                        "name": "NEUMONIA",
+                        "count": 526,
+                        "deaths": 225
+                  },
+                  {
+                        "name": "DIABETES",
+                        "count": 857,
+                        "deaths": 111
+                  },
+                  {
+                        "name": "EPOC",
+                        "count": 54,
+                        "deaths": 5
+                  },
+                  {
+                        "name": "ASMA",
+                        "count": 220,
+                        "deaths": 3
+                  },
+                  {
+                        "name": "INMUSUPR",
+                        "count": 61,
+                        "deaths": 1
+                  },
+                  {
+                        "name": "HIPERTENSION",
+                        "count": 1256,
+                        "deaths": 126
+                  },
+                  {
+                        "name": "CARDIOVASCULAR",
+                        "count": 107,
+                        "deaths": 10
+                  },
+                  {
+                        "name": "OBESIDAD",
+                        "count": 1087,
+                        "deaths": 41
+                  },
+                  {
+                        "name": "RENAL_CRONICA",
+                        "count": 64,
+                        "deaths": 18
+                  },
+                  {
+                        "name": "TABAQUISMO",
+                        "count": 855,
+                        "deaths": 15
+                  }
+            ]
+      }
+]

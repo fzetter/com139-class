@@ -30,7 +30,8 @@
 <body id="page-top">
 
     <script>
-        data = {{ data_json }}
+        scatter_json = {{ scatter_json }}
+        pie_json = {{ pie_json }}
     </script>
 
     <!-- WRAPPER -->
@@ -186,14 +187,14 @@
 
                       <!-- Card -->
                       <div class="col-lg-8">
-                          <div class="card shadow mb-4">
+                          <div class="card shadow mb-4 hi">
                               <div class="card-header py-3">
-                                  <h6 class="m-0 font-weight-bold text-primary">Basic Card Example</h6>
+                                  <h6 class="m-0 font-weight-bold text-primary">Cases and deaths of patients with an existing condition. </h6>
                               </div>
                               <div class="card-body">
-                                  Chart description here.
+                                  The number of cases dramatically increase between March and April and then again of December.
                               </div>
-                              <svg width="95%" height="450" id="scatter-plot"></svg>
+                              <svg width="95%" height="480" id="scatter-plot"></svg>
                           </div>
                       </div>
 
@@ -201,23 +202,60 @@
                       <div class="col-xl-4 col-lg-4">
                           <div class="card shadow mb-4">
                               <div class="card-header py-3">
-                                  <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                  <h6 class="m-0 font-weight-bold text-primary">Top Conditions</h6>
                               </div>
                               <div class="card-body">
+                                  Main pre-conditions.
                                   <div class="chart-pie pt-4 pb-2">
-                                      <!-- <div id="chart-area"></div> -->
+                                      <svg width="95%" height="100%" id="pie-chart"></svg>
                                   </div>
+
                                   <div class="mt-4 text-center small">
-                                      <span class="mr-2">
-                                          <i class="fas fa-circle text-primary"></i> Direct
+                                      <span class="mr-4 pie-label">
+                                          <i class="fas fa-circle" style="color: #a6cee3"></i> NEUMONIA
                                       </span>
-                                      <span class="mr-2">
-                                          <i class="fas fa-circle text-success"></i> Social
+                                      <span class="mr-4 pie-label">
+                                          <i class="fas fa-circle" style="color: #1f78b4"></i> HIPERTENSION
                                       </span>
-                                      <span class="mr-2">
-                                          <i class="fas fa-circle text-info"></i> Referral
+                                      <span class="mr-4 pie-label">
+                                          <i class="fas fa-circle" style="color: #b2df8a"></i> OBESIDAD
+                                      </span>
+                                      <span class="mr-4 pie-label">
+                                          <i class="fas fa-circle" style="color: #33a02c"></i> DIABETES
+                                      </span>
+                                      <span class="mr-4 pie-label">
+                                          <i class="fas fa-circle" style="color: #fb9a99"></i> TABAQUISMO
                                       </span>
                                   </div>
+                              </div>
+                          </div>
+                      </div>
+
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                      <!-- Card -->
+                      <div class="col-lg-6">
+                          <div class="card shadow mb-4 hi">
+                              <div class="card-header py-3">
+                                  <h6 class="m-0 font-weight-bold text-primary">Cases and deaths of patients with an existing condition. </h6>
+                              </div>
+                              <div class="card-body">
+                                  The number of cases dramatically increase between March and April and then again of December.
+                              </div>
+                          </div>
+                      </div>
+
+                      <!-- Card -->
+                      <div class="col-lg-6">
+                          <div class="card shadow mb-4 hi">
+                              <div class="card-header py-3">
+                                  <h6 class="m-0 font-weight-bold text-primary">Cases and deaths of patients with an existing condition. </h6>
+                              </div>
+                              <div class="card-body">
+                                  The number of cases dramatically increase between March and April and then again of December.
                               </div>
                           </div>
                       </div>
@@ -260,7 +298,8 @@
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
     <script src="{% static 'js/d3.min.js' %}"></script>
     <script src="{% static 'js/d3-tip.js' %}"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="{% static 'js/scatter.js' %}"></script>
+    <script src="{% static 'js/pie.js' %}"></script>
 
 </body>
 

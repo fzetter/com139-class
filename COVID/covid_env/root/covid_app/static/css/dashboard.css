@@ -6,6 +6,14 @@ svg {
 	margin-bottom: 1.5em;
 }
 
+svg {
+  /* background-color: #F1EFEF !important; */
+}
+
+.chart-pie {
+  height: 444px !important;
+}
+
 label {
 	font-size: 14px;
 	font-family: sans-serif;
@@ -15,4 +23,8 @@ label {
 .d3-tip {
 	font-size: 12px;
 	font-weight: 200;
+}
+
+.pie-label {
+  font-size: 12px;
 }

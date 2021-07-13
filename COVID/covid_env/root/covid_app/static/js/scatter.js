@@ -1,5 +1,6 @@
 // Config
 // ******
+const data = scatter_json
 const margin = {top: 30, bottom: 75, right: 40, left: 75}
 const width = $("#scatter-plot").width() - margin.left - margin.right
 const height = $("#scatter-plot").height() - margin.top - margin.bottom
@@ -11,11 +12,11 @@ const g = d3.select("#scatter-plot").append("g").attr("transform", "translate(" 
 	area: Population
 	color: Country
 */
-const x_scale = d3.scaleLog().domain([142, 150000]).range([0, width]).base(10)
-const y_scale = d3.scaleLinear().domain([90, 0]).range([0, height])
-const area_scale = d3.scaleLinear().domain([2000, 1400000000]).range([25*Math.PI, 1500*Math.PI])
-const continents = ["africa", "americas", "asia", "europe"]
-const color_scale = d3.scaleOrdinal().domain(continents).range(d3.schemeSet3)
+const x_scale = d3.scaleLinear().range([0, width])
+const y_scale = d3.scaleLinear().range([0, height])
+const area_scale = d3.scaleLinear().domain([10, 10000]).range([25*Math.PI, 1500*Math.PI])
+const continents = ['NEUMONIA','DIABETES','EPOC','ASMA','INMUSUPR','HIPERTENSION','CARDIOVASCULAR','OBESIDAD','RENAL_CRONICA','TABAQUISMO']
+const color_scale = d3.scaleOrdinal().domain(continents).range(d3.schemePaired)
 
 const y_axis = g.append("g").attr("class", "y axis")
 const x_axis = g.append("g").attr("class", "x axis").attr("transform", "translate(0, " + height + ")")
@@ -31,18 +32,18 @@ const y_label = g.append("text")
 
 const x_label =	g.append("text")
 	.attr("class", "x axis-label")
-	.attr("x", (width / 2) - 70)
+	.attr("x", (width / 2) - 35)
 	.attr("y", height + 60)
 	.attr("font-size", "15px")
 
-const year_label = g.append("text")
+const month_label = g.append("text")
 	.attr("class", "x axis-label")
-	.attr("x", width - 130)
+	.attr("x", width - 95)
 	.attr("y", height - 20)
-	.attr("font-size", "55px")
+	.attr("font-size", "50px")
 
 const legend = g.append("g")
-	.attr("transform", "translate(" + (width - 10) + "," + (height - 125) + ")")
+	.attr("transform", "translate(" + width + "," + (height / 2 - 50) + ")")
 
 continents.forEach((continent, i) => {
 	const legendRow = legend.append("g").attr("transform", "translate(-15, " + ((i * 20)-30) + ")")
@@ -54,6 +55,7 @@ continents.forEach((continent, i) => {
 	  .attr("class", "legend")
 		.attr("x", -10)
 		.attr("y", 10)
+		.attr("font-size", "10px")
 		.attr("text-anchor", "end")
 		.style("text-transform", "capitalize")
 		.text(continent)
@@ -61,50 +63,52 @@ continents.forEach((continent, i) => {
 
 // Obtain Data
 // ***********
-data = parse(data)
-let len = data.length-2, curr = 190
+let len = data.length-2, curr = 3
 
 d3.interval(() => {
 	if (curr > len) curr = 0
 	else curr += 1
-	update(data[curr].countries, data[curr].year)
-}, 100)
-update(data[curr].countries, data[curr].year)
+	update(data[curr].conditions, data[curr].month)
+}, 700)
+update(data[curr].conditions, data[curr].month)
 
 // Update Data
 // ***********
-function update(data, year) {
+function update(data, month) {
+
+	x_scale.domain([0, 900])
+	y_scale.domain([900, 0])
 
 	// Join
-	circle = g.selectAll("circle").data(data, d => d.country)
+	circle = g.selectAll("circle").data(data, d => d.name)
 	// Exit
 	circle.exit().remove()
 	// Enter & Update
 	circle.enter().append("circle")
-		.attr("cx", d => x_scale(d.income))
-		.attr("cy", d => y_scale(d.life_exp))
+		.attr("cx", d => x_scale(d.deaths))
+		.attr("cy", d => y_scale(d.count))
 		.attr("r", d => Math.sqrt(area_scale(0) / Math.PI))
-		.attr("fill", d => color_scale(d.continent))
+		.attr("fill", d => color_scale(d.name))
 		.merge(circle)
 		.transition(t)
-			.attr("cx", d => x_scale(d.income))
-			.attr("cy", d => y_scale(d.life_exp))
-			.attr("r", d => Math.sqrt(area_scale(d.population) / Math.PI))
+			.attr("cx", d => x_scale(d.deaths))
+			.attr("cy", d => y_scale(d.count))
+			.attr("r", d => Math.sqrt(area_scale(d.count) / Math.PI))
 
-	configAxisAndLabels(x_scale, y_scale, "#000", "Life Expectancy (Years)", "GDP Per Capita ($)", year)
+	configAxisAndLabels(x_scale, y_scale, "#000", "Cases", "Deaths", month)
 
 }
 
 // Config Axis & Labels
 // *********************
-function configAxisAndLabels(x, y, color, yLabel, xLabel, yearLabel) {
+function configAxisAndLabels(x, y, color, yLabel, xLabel, monthLabel) {
 
 	// Y Axis
 	const yAxis = d3.axisLeft(y)
 	y_axis.transition(t).call(yAxis).selectAll("text").style("fill", color)
 
 	// X Axis
-	const xAxis = d3.axisBottom(x).tickValues([400, 4000, 40000]).tickFormat(d => "$" + d)
+	const xAxis = d3.axisBottom(x)
 	x_axis.call(xAxis).selectAll("text").style("fill", color)
 		.attr("y", "10").attr("x", "-5")
 		.attr("text-anchor", "end")
@@ -119,29 +123,11 @@ function configAxisAndLabels(x, y, color, yLabel, xLabel, yearLabel) {
 	// Labels
 	y_label.text(yLabel).style("fill", color)
 	x_label.text(xLabel).style("fill", color)
-	year_label.text(yearLabel).style("fill", color).style("fill-opacity", "0.5")
+	month_label.text(monthLabel).style("fill", color).style("fill-opacity", "0.5")
 
 	// Legend
 	g.selectAll(".legend").style("fill", color)
 
-}
-
-// Parse Integers
-// **************
-function parse(data) {
-	data = data.map(item => {
-		return {
-			countries: item.countries
-				 .filter(country => country.income && country.life_exp)
-				 .map(country => {
-						country.income = +country.income
-						country.life_exp = +country.life_exp
-						return country
-				 }),
-		  year: item.year
-		}
-	})
-  return data
 }
 
 // NOTES:

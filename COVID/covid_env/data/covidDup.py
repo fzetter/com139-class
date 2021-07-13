@@ -3,9 +3,16 @@ import numpy as np
 import json
 import os.path
 
-data_file = "COVID_MX_2020.xlsx"
+data_file = "COVID_MX_2020_tst.xlsx"
 catalog_file = "Catalogos.xlsx"
 desc_file = "descriptor.json"
+columns = ['ID_REGISTRO','SEXO','EDAD','ENTIDAD_RES','PAIS_NACIONALIDAD','FECHA_INGRESO','FECHA_DEF',
+          'INTUBADO','NEUMONIA','DIABETES','EPOC','ASMA','INMUSUPR','HIPERTENSION','OTRA_COM',
+          'CARDIOVASCULAR','OBESIDAD','RENAL_CRONICA','TABAQUISMO','OTRO_CASO','CLASIFICACION_FINAL']
+
+final_columns = ['ID_REGISTRO','SEXO','EDAD','ENTIDAD_RES','MES_INGRESO','MES_DEF',
+          'INTUBADO','NEUMONIA','DIABETES','EPOC','ASMA','INMUSUPR','HIPERTENSION','OTRA_COM',
+          'CARDIOVASCULAR','OBESIDAD','RENAL_CRONICA','TABAQUISMO','OTRO_CASO']
 
 catalogs = {}
 mappings = {}
@@ -24,28 +31,30 @@ def load_files():
     load_catalogs(desc)
     j_file.close()
 
-    if not os.path.exists("export_dataframe.xlsx"):
-        # READ MAIN DATA FILE
-        print("Loading data source...")
-        xl = pd.ExcelFile(data_file)
-        covid_df = xl.parse('Hoja1')
-        print("The data set contains " + str(covid_df.shape[0]) + " rows by " + str(covid_df.shape[1]) + " columns.")
-        print("Done.")
+    # READ MAIN DATA FILE
+    print("Loading data source...")
+    xl = pd.ExcelFile(data_file)
+    covid_df = xl.parse('Hoja1')
+    print("The data set contains " + str(covid_df.shape[0]) + " rows by " + str(covid_df.shape[1]) + " columns.")
+    print("Done.")
 
-        # CLEAN DATA
-        print("Cleaning data...")
-        merge_clean_data()
-        print("Done.")
+    covid_df = covid_df.filter(items=columns)
 
-        # FILTER COLUMNS
-        covid_df_reduced = covid_df[['ENTIDAD_RES','FECHA_INGRESO','FECHA_DEF']]
-        covid_df_reduced = covid_df_reduced.loc[covid_df_reduced['CLASIFICACION_FINAL'].str.contains("Confirmado")]
+    # CLEAN DATA
+    print("Cleaning data...")
+    merge_clean_data()
+    print("Done.")
 
-        # SAVE CLEAN AND FILTERED DATA
-        covid_df_reduced.to_json(r'super_reduced.json', orient='records')
-    else:
-        xl = pd.ExcelFile('export_dataframe.xlsx')
-        covid_df = xl.parse('Sheet1')
+    # FILTER COLUMNS
+    covid_df_reduced = covid_df.loc[covid_df['PAIS_NACIONALIDAD'].str.contains("MÃ©xico")]
+    #covid_df_reduced = covid_df_reduced.loc[covid_df_reduced['CLASIFICACION_FINAL'].str.contains("Confirmado")]
+    covid_df_reduced = covid_df_reduced.filter(items=final_columns)
+
+    print("Final: " + str(covid_df_reduced.shape[0]) + " rows.")
+
+    # SAVE CLEAN AND FILTERED DATA
+    #covid_df_reduced.to_json(r'super_reduced.json', orient='records')
+    covid_df_reduced.to_excel(r'super_reduced_tst.xlsx', index=False, header=True)
 
 # LOAD CATALOGUES #
 ###################
@@ -74,35 +83,42 @@ def merge_clean_data():
     for fields in mappings:
         field = fields["name"]
 
-        if fields["format"] == "ID":
-            covid_df.set_index(field)
+        if field in columns:
+            if fields["format"] == "ID":
+                covid_df.set_index(field)
 
-        elif fields["format"] == "DATE":
-            # CLEAN EMPTY CELLS
-            covid_df[field] = pd.to_datetime(covid_df[field], errors='coerce').fillna('')
-            # SEPARATE DATE TYPES
-            covid_df[field + "_YR"] = covid_df[field].apply(lambda x: x.year if x != '' else x)
-            covid_df[field + "_MT"] = covid_df[field].apply(lambda x: x.month if x != '' else x)
-            covid_df[field + "_DY"] = covid_df[field].apply(lambda x: x.day if x != '' else x)
-            covid_df[field + "_WK"] = covid_df[field].apply(lambda x: x.week if x != '' else x)
+            elif fields["format"] == "DATE":
+                covid_df[field] = pd.to_datetime(covid_df[field], errors='coerce').fillna('')
+                covid_df["MES_" + field.split("_")[1]] = covid_df[field].apply(lambda x: get_month(x.month) if x != '' else x)
 
-        elif fields["format"] == "MUNICIPIOS":
-            catalog = catalogs[fields["format"]]
-            relation = fields["relation"]
-            covid_df[field] = covid_df[relation].astype(str) + "-" + covid_df[field].astype(str)
-            covid_df[field].replace(catalog["CODIGO"].values, catalog["MUNICIPIO"].values, inplace=True)
+            elif fields["format"] == "ENTIDADES":
+                catalog = catalogs[fields["format"]]
+                covid_df[field].replace(catalog["CLAVE_ENTIDAD"].values, catalog["ABREVIATURA"].values, inplace=True)
 
-        elif fields["format"] == "ENTIDADES":
-            catalog = catalogs[fields["format"]]
-            covid_df[field].replace(catalog["CLAVE_ENTIDAD"].values, catalog["ABREVIATURA"].values, inplace=True)
+            elif fields["format"] in catalogs.keys():
+                catalog = catalogs[fields["format"]]
+                covid_df[field].replace(catalog["CLAVE"].values, catalog["DESCRIPCIÓN"].values, inplace=True)
 
-        elif field == "PAIS_NACIONALIDAD":
-            wrong_syntax = ["MÃ©xico", "EspaÃ±a", "Estados Unidos de AmÃ©rica", "HaitÃ­"]
-            proper_syntax = ["Mexico", "Spain", "USA", "Haiti"]
-            covid_df[field].replace(wrong_syntax, proper_syntax, inplace=True)
+                if (fields["format"] == "SI_NO"):
+                    wrong_syntax = ["SI", "NO", "NO APLICA", "SE IGNORA", "NO ESPECIFICADO"]
+                    proper_syntax = ["SI", "NO", "NO", "NO", "NO"]
+                    covid_df[field].replace(wrong_syntax, proper_syntax, inplace=True)
 
-        elif fields["format"] in catalogs.keys():
-            catalog = catalogs[fields["format"]]
-            covid_df[field].replace(catalog["CLAVE"].values, catalog["DESCRIPCIÓN"].values, inplace=True)
+# OBATAIN MES #
+###############
+def get_month(month):
+    if (month == 1): return "Jan"
+    elif (month == 2): return "Feb"
+    elif (month == 3): return "Mar"
+    elif (month == 4): return "Apr"
+    elif (month == 5): return "May"
+    elif (month == 6): return "Jun"
+    elif (month == 7): return "Jul"
+    elif (month == 8): return "Aug"
+    elif (month == 9): return "Sep"
+    elif (month == 10): return "Oct"
+    elif (month == 11): return "Nov"
+    elif (month == 12): return "Dec"
+    else: return ""
 
 load_files()

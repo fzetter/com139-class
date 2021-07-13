@@ -7,6 +7,7 @@ from .models import COVIDData
 from .serializers import StateSexSerializer, StateSexAgeSerializer
 
 import pandas as pd
+import json
 # Create your views here.
 
 def index(request):
@@ -14,13 +15,20 @@ def index(request):
     return render(request, 'covid_app/index.html', context)
 
 def dashboard(request):
-    data_file = "../data/example.json"
-    #xl = pd.ExcelFile(data_file)
-    #covid_df = xl.parse('Sheet1')
-    #covid_df = covid_df.to_json(orient='records')
-    xl = pd.read_json(data_file)
+    context = {}
+
+    # SCATTER CHART
+    scatter_data = "../data/scatter_data.json"
+    xl = pd.read_json(scatter_data)
     covid_df = xl.to_json(orient='records')
-    context = {'data_json': SafeString(covid_df)}
+    context['scatter_json'] = SafeString(covid_df)
+
+    # PIE CHART
+    f = open('../data/pie_data.json',)
+    pie_data = json.load(f)
+    f.close()
+    context['pie_json'] = SafeString(pie_data)
+
     return render(request, 'covid_app/dashboard.html', context)
 
 def pie_chart(request):
