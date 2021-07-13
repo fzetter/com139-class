@@ -61,18 +61,15 @@ continents.forEach((continent, i) => {
 
 // Obtain Data
 // ***********
-d3.json("https://raw.githubusercontent.com/gcastillo56/d3Lab/master/projects/leaf_project/data/data.json").then(data => {
-  data = parse(data)
-	let len = data.length-2, curr = 190
+data = parse(data)
+let len = data.length-2, curr = 190
 
-	d3.interval(() => {
-		if (curr > len) curr = 0
-		else curr += 1
-		update(data[curr].countries, data[curr].year)
-	}, 100)
+d3.interval(() => {
+	if (curr > len) curr = 0
+	else curr += 1
 	update(data[curr].countries, data[curr].year)
-
-}).catch(error => print(error))
+}, 100)
+update(data[curr].countries, data[curr].year)
 
 // Update Data
 // ***********

@@ -97,19 +97,6 @@ def merge_clean_data():
 
 load_files()
 
-# print(covid_df.isnull().sum())
-# covid_df.dropna(inplace=True)
-# dup1 = covid_df
-# dup2 = covid_df
-
-# dup1[dup1.duplicated()]
-# dup2.drop_duplicates(keep='first',inplace=True)
-
-# print(covid_df["ENTIDAD_RES"].value_counts())
-
 sex_by_state_df = covid_df[['SEXO', 'ENTIDAD_RES']]
 print("The data set contains " + str(sex_by_state_df.shape[0]) + " rows by " + str(sex_by_state_df.shape[1]) + " columns.")
 print(sex_by_state_df.head())
-
-# TODO: Make sure you have virtualenv, django and djantorestframework
-
