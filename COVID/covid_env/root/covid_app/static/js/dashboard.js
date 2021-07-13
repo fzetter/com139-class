@@ -1,134 +1,151 @@
-// var margin ={top: 20, right: 300, bottom: 30, left: 50},
-//     width = 600 - margin.left - margin.right,
-//     height = 300 - margin.top - margin.bottom,
-//     radius = Math.min(width, height) / 2;
-//
-// var svg = d3.select("#chart-area").append("svg")
-// 	.attr("width", width + margin.left + margin.right)
-//     .attr("height", height + margin.top + margin.bottom);
-// var g = svg.append("g")
-//     .attr("transform",
-//     	"translate(" + width / 2 + "," + height / 2 + ")");
-//
-// //d3.scale.category20()
-// var color = d3.scaleOrdinal(d3.schemeCategory10);
-//
-// //d3.layout.pie()
-// var pie = d3.pie()
-//     .value((d) => { return d.count; })
-//     .sort(null);
-//
-// var arc = d3.arc()
-//     .innerRadius(radius - 80)
-//     .outerRadius(radius - 20);
-//
-//
-// data.forEach((d) => {
-//     d.count = +d.count;
-//     d.fruit = d.fruit.toLowerCase();
-// });
-//
-// console.log(data)
-//
-// var regionsByFruit = d3.nest()
-//     .key((d) => { return d.fruit; })
-//     .entries(data)
-//     .reverse();
-//
-// console.log(regionsByFruit)
-//
-// var label = d3.select("form").selectAll("label")
-//     .data(regionsByFruit)
-//     .enter().append("label");
-//
-// // Dynamically add radio buttons
-// label.append("input")
-//         .attr("type", "radio")
-//         .attr("name", "fruit")
-//         .attr("value", (d) => { return d.key; })
-//         .on("change", update)
-//     .filter((d, i) => { return !i; })
-//         .each(update)
-//         .property("checked", true);
-//
-// label.append("span")
-//     .attr("fill", "red")
-//     .text((d) => { return d.key; });
-//
-// function update(region) {
-//     var path = g.selectAll("path");
-//
-//     var data0 = path.data(),
-//         data1 = pie(region.values);
-//
-//     // JOIN elements with new data.
-//     path = path.data(data1, key);
-//
-//     // EXIT old elements from the screen.
-//     path.exit()
-//         .datum((d, i) => {
-//         	return findNeighborArc(i, data1, data0, key) || d;
-//         })
-//         .transition()
-//         .duration(750)
-//         .attrTween("d", arcTween)
-//         .remove();
-//
-//     // UPDATE elements still on the screen.
-//     path.transition()
-//         .duration(750)
-//         .attrTween("d", arcTween);
-//
-//     // ENTER new elements in the array.
-//     path.enter()
-//         .append("path")
-//         .each((d, i) => {
-//         	this._current =
-//         		findNeighborArc(i, data0, data1, key) || d;
-//         })
-//         .attr("fill", (d) => {
-//         	return color(d.data.region)
-//         })
-//         .transition()
-//         .duration(750)
-//             .attrTween("d", arcTween);
-// }
-//
-// function key(d) {
-//     return d.data.region;
-// }
-//
-// function findNeighborArc(i, data0, data1, key) {
-//     var d;
-//     return (d = findPreceding(i, data0, data1, key)) ? {startAngle: d.endAngle, endAngle: d.endAngle}
-//         : (d = findFollowing(i, data0, data1, key)) ? {startAngle: d.startAngle, endAngle: d.startAngle}
-//         : null;
-// }
-//
-// // Find the element in data0 that joins the highest preceding element in data1.
-// function findPreceding(i, data0, data1, key) {
-//     var m = data0.length;
-//     while (--i >= 0) {
-//         var k = key(data1[i]);
-//         for (var j = 0; j < m; ++j) {
-//             if (key(data0[j]) === k) return data0[j];
-//         }
-//     }
-// }
-//
-// // Find the element in data0 that joins the lowest following element in data1.
-// function findFollowing(i, data0, data1, key) {
-//     var n = data1.length, m = data0.length;
-//     while (++i < n) {
-//         var k = key(data1[i]);
-//         for (var j = 0; j < m; ++j) {
-//             if (key(data0[j]) === k) return data0[j];
-//         }
-//     }
-// }
-//
-// function arcTween(d) {
-//     var i = d3.interpolate(this._current, d);
-//     this._current = i(1)
-//     return (t) => { return arc(i(t)); };
-// }
+// Config
+// ******
+const margin = {top: 30, bottom: 75, right: 40, left: 75}
+const width = $("#scatter-plot").width() - margin.left - margin.right
+const height = $("#scatter-plot").height() - margin.top - margin.bottom
+const g = d3.select("#scatter-plot").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+/* Scales:
+	x: Income
+	y: Age Expectancy
+	area: Population
+	color: Country
+*/
+const x_scale = d3.scaleLog().domain([142, 150000]).range([0, width]).base(10)
+const y_scale = d3.scaleLinear().domain([90, 0]).range([0, height])
+const area_scale = d3.scaleLinear().domain([2000, 1400000000]).range([25*Math.PI, 1500*Math.PI])
+const continents = ["africa", "americas", "asia", "europe"]
+const color_scale = d3.scaleOrdinal().domain(continents).range(d3.schemeSet3)
+
+const y_axis = g.append("g").attr("class", "y axis")
+const x_axis = g.append("g").attr("class", "x axis").attr("transform", "translate(0, " + height + ")")
+const t = 750
+
+const y_label = g.append("text")
+	.attr("class", "y axis-label")
+	.attr("x", - (height / 2))
+	.attr("y", -45)
+	.attr("font-size", "15px")
+	.attr("text-anchor", "middle")
+	.attr("transform", "rotate(-90)")
+
+const x_label =	g.append("text")
+	.attr("class", "x axis-label")
+	.attr("x", (width / 2) - 70)
+	.attr("y", height + 60)
+	.attr("font-size", "15px")
+
+const year_label = g.append("text")
+	.attr("class", "x axis-label")
+	.attr("x", width - 130)
+	.attr("y", height - 20)
+	.attr("font-size", "55px")
+
+const legend = g.append("g")
+	.attr("transform", "translate(" + (width - 10) + "," + (height - 125) + ")")
+
+continents.forEach((continent, i) => {
+	const legendRow = legend.append("g").attr("transform", "translate(-15, " + ((i * 20)-30) + ")")
+	legendRow.append("rect")
+		.attr("width", 10)
+		.attr("height", 10)
+		.attr("fill", color_scale(continent))
+	legendRow.append("text")
+	  .attr("class", "legend")
+		.attr("x", -10)
+		.attr("y", 10)
+		.attr("text-anchor", "end")
+		.style("text-transform", "capitalize")
+		.text(continent)
+})
+
+// Obtain Data
+// ***********
+d3.json("https://raw.githubusercontent.com/gcastillo56/d3Lab/master/projects/leaf_project/data/data.json").then(data => {
+  data = parse(data)
+	let len = data.length-2, curr = 190
+
+	d3.interval(() => {
+		if (curr > len) curr = 0
+		else curr += 1
+		update(data[curr].countries, data[curr].year)
+	}, 100)
+	update(data[curr].countries, data[curr].year)
+
+}).catch(error => print(error))
+
+// Update Data
+// ***********
+function update(data, year) {
+
+	// Join
+	circle = g.selectAll("circle").data(data, d => d.country)
+	// Exit
+	circle.exit().remove()
+	// Enter & Update
+	circle.enter().append("circle")
+		.attr("cx", d => x_scale(d.income))
+		.attr("cy", d => y_scale(d.life_exp))
+		.attr("r", d => Math.sqrt(area_scale(0) / Math.PI))
+		.attr("fill", d => color_scale(d.continent))
+		.merge(circle)
+		.transition(t)
+			.attr("cx", d => x_scale(d.income))
+			.attr("cy", d => y_scale(d.life_exp))
+			.attr("r", d => Math.sqrt(area_scale(d.population) / Math.PI))
+
+	configAxisAndLabels(x_scale, y_scale, "#000", "Life Expectancy (Years)", "GDP Per Capita ($)", year)
+
+}
+
+// Config Axis & Labels
+// *********************
+function configAxisAndLabels(x, y, color, yLabel, xLabel, yearLabel) {
+
+	// Y Axis
+	const yAxis = d3.axisLeft(y)
+	y_axis.transition(t).call(yAxis).selectAll("text").style("fill", color)
+
+	// X Axis
+	const xAxis = d3.axisBottom(x).tickValues([400, 4000, 40000]).tickFormat(d => "$" + d)
+	x_axis.call(xAxis).selectAll("text").style("fill", color)
+		.attr("y", "10").attr("x", "-5")
+		.attr("text-anchor", "end")
+		.attr("transform", "rotate(-45)")
+
+	// Axis Color
+	g.selectAll(".y.axis line").style("stroke", color)
+	g.selectAll(".y.axis path").style("stroke", color)
+	g.selectAll(".x.axis line").style("stroke", color)
+	g.selectAll(".x.axis path").style("stroke", color)
+
+	// Labels
+	y_label.text(yLabel).style("fill", color)
+	x_label.text(xLabel).style("fill", color)
+	year_label.text(yearLabel).style("fill", color).style("fill-opacity", "0.5")
+
+	// Legend
+	g.selectAll(".legend").style("fill", color)
+
+}
+
+// Parse Integers
+// **************
+function parse(data) {
+	data = data.map(item => {
+		return {
+			countries: item.countries
+				 .filter(country => country.income && country.life_exp)
+				 .map(country => {
+						country.income = +country.income
+						country.life_exp = +country.life_exp
+						return country
+				 }),
+		  year: item.year
+		}
+	})
+  return data
+}
+
+// NOTES:
+// https://github.com/d3/d3-scale-chromatic

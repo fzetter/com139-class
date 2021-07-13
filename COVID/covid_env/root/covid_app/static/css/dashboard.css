@@ -1,0 +1,18 @@
+svg {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+	background-color: #fff !important;
+	margin-bottom: 1.5em;
+}
+
+label {
+	font-size: 14px;
+	font-family: sans-serif;
+	font-weight: 300;
+}
+
+.d3-tip {
+	font-size: 12px;
+	font-weight: 200;
+}
