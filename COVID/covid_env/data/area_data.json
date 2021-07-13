@@ -1,0 +1,14 @@
+[
+  {"MES_INGRESO":"Jan","COUNT":2},
+  {"MES_INGRESO":"Feb","COUNT":13},
+  {"MES_INGRESO":"Mar","COUNT":2538},
+  {"MES_INGRESO":"Apr","COUNT":24656},
+  {"MES_INGRESO":"May","COUNT":95},
+  {"MES_INGRESO":"Jun","COUNT":85},
+  {"MES_INGRESO":"Jul","COUNT":170},
+  {"MES_INGRESO":"Aug","COUNT":64},
+  {"MES_INGRESO":"Sep","COUNT":128},
+  {"MES_INGRESO":"Oct","COUNT":182},
+  {"MES_INGRESO":"Nov","COUNT":875},
+  {"MES_INGRESO":"Dec","COUNT":11327}
+]

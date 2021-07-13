@@ -29,6 +29,12 @@ def dashboard(request):
     f.close()
     context['pie_json'] = SafeString(pie_data)
 
+    # AREA CHART
+    area_data = "../data/area_data.json"
+    xl = pd.read_json(area_data)
+    covid_df = xl.to_json(orient='records')
+    context['area_json'] = SafeString(covid_df)
+
     return render(request, 'covid_app/dashboard.html', context)
 
 def pie_chart(request):

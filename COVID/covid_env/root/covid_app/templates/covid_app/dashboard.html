@@ -32,6 +32,7 @@
     <script>
         scatter_json = {{ scatter_json }}
         pie_json = {{ pie_json }}
+        area_json = {{ area_json }}
     </script>
 
     <!-- WRAPPER -->
@@ -52,48 +53,6 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading"> Interface </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading"> Addons </div>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -117,20 +76,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -240,11 +185,12 @@
                       <div class="col-lg-6">
                           <div class="card shadow mb-4 hi">
                               <div class="card-header py-3">
-                                  <h6 class="m-0 font-weight-bold text-primary">Cases and deaths of patients with an existing condition. </h6>
+                                  <h6 class="m-0 font-weight-bold text-primary">Total cases by month. </h6>
                               </div>
                               <div class="card-body">
-                                  The number of cases dramatically increase between March and April and then again of December.
+                                  Complete number of cases by month.
                               </div>
+                              <svg width="95%" height="480" id="area-chart"></svg>
                           </div>
                       </div>
 
@@ -252,7 +198,7 @@
                       <div class="col-lg-6">
                           <div class="card shadow mb-4 hi">
                               <div class="card-header py-3">
-                                  <h6 class="m-0 font-weight-bold text-primary">Cases and deaths of patients with an existing condition. </h6>
+                                  <h6 class="m-0 font-weight-bold text-primary">Graph here. </h6>
                               </div>
                               <div class="card-body">
                                   The number of cases dramatically increase between March and April and then again of December.
@@ -271,7 +217,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; Dashboard 2020</span>
                     </div>
                 </div>
             </footer>
@@ -300,6 +246,7 @@
     <script src="{% static 'js/d3-tip.js' %}"></script>
     <script src="{% static 'js/scatter.js' %}"></script>
     <script src="{% static 'js/pie.js' %}"></script>
+    <script src="{% static 'js/area.js' %}"></script>
 
 </body>
 
