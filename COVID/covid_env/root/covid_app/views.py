@@ -41,6 +41,12 @@ def dashboard(request):
     covid_df = xl.to_json(orient='records')
     context['bar_json'] = SafeString(covid_df)
 
+    # STACKED CHART
+    stacked_data = "../data/stacked_data.csv"
+    xl = pd.read_csv(stacked_data)
+    covid_df = xl.to_json(orient='records')
+    context['stacked_json'] = SafeString(covid_df)
+
     return render(request, 'covid_app/dashboard.html', context)
 
 def pie_chart(request):
